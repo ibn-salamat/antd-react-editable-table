@@ -74,19 +74,13 @@ function renderColumn(column) {
       break;
   }
 
-  console.log("render column", newColumn);
-
   return newColumn;
 }
 
 function CEditableTable({ columns: propColumns }) {
   const [form] = useForm();
   const [data, setData] = useState([]);
-  const [columns, setColumns] = useState([]);
-
-  useEffect(() => {
-    setColumns(renderColumns([...propColumns]));
-  }, [data]);
+  const [columns] = useState(renderColumns([...propColumns]));
 
   async function addRow() {
     await form.validateFields();
@@ -110,15 +104,24 @@ function CEditableTable({ columns: propColumns }) {
 
       <Form form={form}>
         <Table
+          id="custom-antd-editable-table"
           columns={columns}
           dataSource={data}
           sticky
           className="custom-antd-editable-table"
           scroll={{ x: "max-content" }}
+          pagination={false}
         />
       </Form>
 
       <button onClick={addRow}>add</button>
+      <button
+        onClick={() => {
+          console.log(form.getFieldsValue());
+        }}
+      >
+        console
+      </button>
     </>
   );
 }

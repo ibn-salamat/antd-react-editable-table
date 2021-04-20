@@ -2,6 +2,19 @@ import EditableTable, { formtypes } from "./components/EditableTable";
 
 const testColumns = [
   {
+    title: "№",
+    key: "index",
+    isVisible: true,
+    width: 70,
+    fixed: "left",
+    sorter: true,
+    render: (text, record, index) => {
+      // eslint-disable-next-line react/destructuring-assignment
+      // (component.state.currentPage - 1) * component.state.pageSize + index + 1,
+      return index + 1;
+    },
+  },
+  {
     key: "name",
     title: "Name",
     dataIndex: "name",
@@ -74,12 +87,65 @@ const testColumns = [
             message: "required",
           },
           {
-            len: 6,
-            message: "min 6 ",
+            len: 2,
+            message: "min 2",
           },
         ],
       },
     ],
+  },
+  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
+  },
+  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
+  },
+  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
+  },
+  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
+  },
+  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
+  },  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
+  },  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
+  },  {
+    key: "phoneNumber",
+    title: "phone Number",
+    dataIndex: "phoneNumber",
+    formType: formtypes.number,
+    width: 120,
   },
 ];
 
