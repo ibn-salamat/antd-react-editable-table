@@ -85,7 +85,7 @@ function CEditableTable({ columns: propColumns }) {
   const [columns, setColumns] = useState([]);
 
   useEffect(() => {
-    setColumns(renderColumns(propColumns));
+    setColumns(renderColumns([...propColumns]));
   }, [data]);
 
   async function addRow() {
