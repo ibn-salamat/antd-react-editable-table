@@ -26,6 +26,26 @@ const testColumns = [
     title: "Adress info",
     children: [
       {
+        key: "houseInfo",
+        title: "House info",
+        children: [
+          {
+            key: "houseNumber",
+            title: "House number",
+            dataIndex: "houseNumber",
+            formType: formtypes.number,
+            width: 120,
+          },
+          {
+            key: "flatNumber",
+            title: "Flat number",
+            dataIndex: "flatNumber",
+            formType: formtypes.number,
+            width: 120,
+          },
+        ],
+      },
+      {
         key: "city",
         title: "City",
         dataIndex: "city",

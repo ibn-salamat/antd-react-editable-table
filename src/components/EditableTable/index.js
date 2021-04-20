@@ -13,15 +13,20 @@ export const formtypes = {
 };
 
 function renderColumns(columns) {
-  return columns.map((column) => {
-    return renderColumn(column);
+  columns.forEach((column, i, current) => {
+    if (column.children) {
+      renderColumns(column.children);
+    } else {
+      current[i] = renderColumn(column);
+    }
   });
+  return columns;
 }
 
 function renderColumn(column) {
   const { dataIndex, formType, options, width, rules = [] } = column;
 
-  let newColumn = { ...column };
+  let newColumn = column;
 
   switch (formType) {
     case formtypes.text:
@@ -66,8 +71,10 @@ function renderColumn(column) {
       };
       break;
     default:
-      return column;
+      break;
   }
+
+  console.log("render column", newColumn);
 
   return newColumn;
 }
@@ -78,7 +85,7 @@ function CEditableTable({ columns: propColumns }) {
   const [columns, setColumns] = useState([]);
 
   useEffect(() => {
-    setColumns(renderColumns(propColumns, data));
+    setColumns(renderColumns(propColumns));
   }, [data]);
 
   async function addRow() {
@@ -96,8 +103,6 @@ function CEditableTable({ columns: propColumns }) {
 
     setData([...data, newData]);
   }
-
-  console.log(form.getFieldsValue());
 
   return (
     <>
@@ -118,27 +123,27 @@ function CEditableTable({ columns: propColumns }) {
   );
 }
 
-function flatColumns(columns) {
-  function checkChildren(obj, outputArr) {
-    if (obj.children) {
-      obj.children.forEach((child) => {
-        checkChildren(child, outputArr);
-      });
+// function flatColumns(columns) {
+//   function checkChildren(obj, outputArr) {
+//     if (obj.children) {
+//       obj.children.forEach((child) => {
+//         checkChildren(child, outputArr);
+//       });
 
-      // eslint-disable-next-line no-param-reassign
-      delete obj.children;
-      outputArr.push(obj);
-    } else {
-      outputArr.push(obj);
-    }
-  }
+//       // eslint-disable-next-line no-param-reassign
+//       delete obj.children;
+//       outputArr.push(obj);
+//     } else {
+//       outputArr.push(obj);
+//     }
+//   }
 
-  return columns.reduce((acc, column) => {
-    const arr = [];
-    checkChildren(column, arr);
+//   return columns.reduce((acc, column) => {
+//     const arr = [];
+//     checkChildren(column, arr);
 
-    return [...acc, ...arr];
-  }, []);
-}
+//     return [...acc, ...arr];
+//   }, []);
+// }
 
 export default CEditableTable;
