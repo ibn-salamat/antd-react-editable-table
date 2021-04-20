@@ -1,24 +1,77 @@
-import logo from './logo.svg';
-import './App.css';
+import EditableTable, { formtypes } from "./components/EditableTable";
+
+const testColumns = [
+  {
+    key: "name",
+    title: "Name",
+    dataIndex: "name",
+    formType: formtypes.text,
+    width: 120,
+    rules: [
+      {
+        required: true,
+        message: "required",
+      },
+    ],
+  },
+  {
+    key: "age",
+    title: "Age",
+    dataIndex: "age",
+    formType: formtypes.number,
+    width: 120,
+  },
+  {
+    key: "adressInfo",
+    title: "Adress info",
+    children: [
+      {
+        key: "city",
+        title: "City",
+        dataIndex: "city",
+        formType: formtypes.select,
+        options: [
+          { label: "Atyrau", value: "atyrau_06" },
+          { label: "Almaty", value: "almaty_02" },
+        ],
+        width: 120,
+        rules: [
+          {
+            required: true,
+            message: "required",
+          },
+        ],
+      },
+      {
+        key: "street",
+        title: "Street",
+        dataIndex: "street",
+        formType: formtypes.text,
+        width: 120,
+        rules: [
+          {
+            required: true,
+            message: "required",
+          },
+          {
+            len: 6,
+            message: "min 6 ",
+          },
+        ],
+      },
+    ],
+  },
+];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Demo</h1>
+
+      <br />
+
+      <EditableTable columns={testColumns} />
+    </>
   );
 }
 
