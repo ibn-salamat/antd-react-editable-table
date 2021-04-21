@@ -1,13 +1,14 @@
+import { Divider } from "antd";
+import { useEffect, useState } from "react";
+
 import EditableTable, { formtypes } from "./components/EditableTable";
 
 const testColumns = [
   {
     title: "№",
     key: "index",
-    isVisible: true,
     width: 70,
     fixed: "left",
-    sorter: true,
     render: (text, record, index) => {
       // eslint-disable-next-line react/destructuring-assignment
       // (component.state.currentPage - 1) * component.state.pageSize + index + 1,
@@ -21,6 +22,7 @@ const testColumns = [
     formType: formtypes.text,
     width: 120,
     initialValue: "Al",
+    editable: true,
     // rules: [
     //   {
     //     required: true,
@@ -34,6 +36,7 @@ const testColumns = [
     dataIndex: "age",
     formType: formtypes.number,
     width: 120,
+    editable: true,
   },
   {
     key: "adressInfo",
@@ -49,6 +52,7 @@ const testColumns = [
             dataIndex: "houseNumber",
             formType: formtypes.number,
             width: 120,
+            editable: true,
           },
           {
             key: "flatNumber",
@@ -56,6 +60,7 @@ const testColumns = [
             dataIndex: "flatNumber",
             formType: formtypes.number,
             width: 120,
+            editable: true,
           },
         ],
       },
@@ -70,6 +75,8 @@ const testColumns = [
         ],
         initialValue: "atyrau_06",
         width: 120,
+        editable: true,
+
         // rules: [
         //   {
         //     required: true,
@@ -93,19 +100,67 @@ const testColumns = [
         //     message: "min 2",
         //   },
         // ],
+        editable: true,
       },
     ],
   },
 ];
 
+const testData = [
+  {
+    age: 55,
+    city: "atyrau_06",
+    flatNumber: 5454,
+    houseNumber: 5454,
+    name: "Al",
+    street: "465464",
+  },
+  {
+    age: 654841,
+    city: "almaty_02",
+    flatNumber: 646445,
+    houseNumber: 4186416541,
+    name: "Aldssdf",
+    street: "68465",
+  },
+];
+
 function App() {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function getData() {
+    setLoading(true);
+    new Promise(() => {
+      setTimeout(() => {
+        setData(testData);
+        setLoading(false);
+      }, 1500);
+    });
+  }
+
   return (
     <>
-      <h1>Demo</h1>
+      <div style={{ padding: "10px 15px" }}>
+        <br />
+        <h1>Edit mode</h1>
+        <EditableTable columns={testColumns} />
+      </div>
 
-      <br />
-
-      <EditableTable columns={testColumns} />
+      <Divider />
+      <div style={{ padding: "10px 15px" }}>
+        <h1>View mode with props data</h1>
+        <EditableTable
+          columns={testColumns}
+          data={data}
+          loading={loading}
+          mode="view"
+        />
+      </div>
     </>
   );
 }

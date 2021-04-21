@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from "react";
-import { Input, InputNumber, Select, Form, Table } from "antd";
+import { Input, InputNumber, Select, Form, Table, Button } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { uid } from "uid";
 
 import { formtypes } from "./utils";
+
+let globalMode;
 
 function renderColumns(columns) {
   columns.forEach((column, i, current) => {
@@ -25,6 +27,7 @@ function renderColumn(column) {
     initialValue,
     width,
     rules = [],
+    editable,
   } = column;
 
   let newColumn = column;
@@ -33,14 +36,15 @@ function renderColumn(column) {
     case formtypes.text:
       newColumn = {
         ...column,
-        render: (a, col) => {
+        render: (val, col) => {
           return (
             <Form.Item
-              initialValue={initialValue}
+              initialValue={val || initialValue}
               name={`${col.key}__${dataIndex}`}
               rules={rules}
             >
               <Input
+                disabled={globalMode === "view" || !editable}
                 style={{ width }}
                 // onChange={e => {
                 //   console.log(e);
@@ -54,14 +58,17 @@ function renderColumn(column) {
     case formtypes.number:
       newColumn = {
         ...column,
-        render: (a, col) => {
+        render: (val, col) => {
           return (
             <Form.Item
-              initialValue={initialValue}
+              initialValue={val || initialValue}
               name={`${col.key}__${dataIndex}`}
               rules={rules}
             >
-              <InputNumber style={{ width }} />
+              <InputNumber
+                disabled={globalMode === "view" || !editable}
+                style={{ width }}
+              />
             </Form.Item>
           );
         },
@@ -70,14 +77,18 @@ function renderColumn(column) {
     case formtypes.select:
       newColumn = {
         ...column,
-        render: (a, col) => {
+        render: (val, col) => {
           return (
             <Form.Item
-              initialValue={initialValue}
+              initialValue={val || initialValue}
               name={`${col.key}__${dataIndex}`}
               rules={rules}
             >
-              <Select options={options} style={{ width }} />
+              <Select
+                disabled={globalMode === "view" || !editable}
+                options={options}
+                style={{ width }}
+              />
             </Form.Item>
           );
         },
@@ -109,14 +120,15 @@ function parseFormValuesToArray(values) {
   return tableData;
 }
 
-function CEditableTable({ columns: propColumns }) {
+function CEditableTable({
+  columns: propColumns,
+  data: propData,
+  loading,
+  mode,
+}) {
   const [form] = useForm();
   const [data, setData] = useState([]);
   const [columns] = useState(renderColumns([...propColumns]));
-
-  // useEffect(() => {
-  //   setData(propData);
-  // }, [propData]);
 
   async function addRow() {
     await form.validateFields();
@@ -141,12 +153,32 @@ function CEditableTable({ columns: propColumns }) {
     console.log(tableData);
   }
 
+  // didMount
+  useEffect(() => {
+    if (mode === "view") {
+      globalMode = "view";
+    }
+  }, []);
+
+  // change data
+  useEffect(() => {
+    if (!Array.isArray(propData)) return;
+
+    setData(
+      propData.map((row, i) => {
+        return {
+          ...row,
+          key: uid(),
+        };
+      })
+    );
+  }, [propData]);
+
   return (
     <>
-      <h1>Editable Table</h1>
-
       <Form form={form}>
         <Table
+          loading={loading}
           id="custom-antd-editable-table"
           columns={columns}
           dataSource={data}
@@ -157,41 +189,17 @@ function CEditableTable({ columns: propColumns }) {
         />
       </Form>
 
-      <button onClick={addRow}>add</button>
-      <button
-        onClick={() => {
-          console.log(form.getFieldsValue());
-        }}
-      >
-        console
-      </button>
-      <button onClick={getTableData}>get table data</button>
+      <br />
+
+      {mode !== "view" && (
+        <>
+          <Button onClick={addRow}>add</Button>
+          <Button onClick={getTableData}>get table data in console</Button>
+        </>
+      )}
     </>
   );
 }
-
-// function flatColumns(columns) {
-//   function checkChildren(obj, outputArr) {
-//     if (obj.children) {
-//       obj.children.forEach((child) => {
-//         checkChildren(child, outputArr);
-//       });
-
-//       // eslint-disable-next-line no-param-reassign
-//       delete obj.children;
-//       outputArr.push(obj);
-//     } else {
-//       outputArr.push(obj);
-//     }
-//   }
-
-//   return columns.reduce((acc, column) => {
-//     const arr = [];
-//     checkChildren(column, arr);
-
-//     return [...acc, ...arr];
-//   }, []);
-// }
 
 export { formtypes };
 export default CEditableTable;
