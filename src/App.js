@@ -20,12 +20,13 @@ const testColumns = [
     dataIndex: "name",
     formType: formtypes.text,
     width: 120,
-    rules: [
-      {
-        required: true,
-        message: "required",
-      },
-    ],
+    initialValue: "Al",
+    // rules: [
+    //   {
+    //     required: true,
+    //     message: "required",
+    //   },
+    // ],
   },
   {
     key: "age",
@@ -67,13 +68,14 @@ const testColumns = [
           { label: "Atyrau", value: "atyrau_06" },
           { label: "Almaty", value: "almaty_02" },
         ],
+        initialValue: "atyrau_06",
         width: 120,
-        rules: [
-          {
-            required: true,
-            message: "required",
-          },
-        ],
+        // rules: [
+        //   {
+        //     required: true,
+        //     message: "required",
+        //   },
+        // ],
       },
       {
         key: "street",
@@ -81,71 +83,18 @@ const testColumns = [
         dataIndex: "street",
         formType: formtypes.text,
         width: 120,
-        rules: [
-          {
-            required: true,
-            message: "required",
-          },
-          {
-            len: 2,
-            message: "min 2",
-          },
-        ],
+        // rules: [
+        //   {
+        //     required: true,
+        //     message: "required",
+        //   },
+        //   {
+        //     len: 2,
+        //     message: "min 2",
+        //   },
+        // ],
       },
     ],
-  },
-  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
-  },
-  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
-  },
-  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
-  },
-  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
-  },
-  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
-  },  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
-  },  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
-  },  {
-    key: "phoneNumber",
-    title: "phone Number",
-    dataIndex: "phoneNumber",
-    formType: formtypes.number,
-    width: 120,
   },
 ];
 

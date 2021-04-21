@@ -4,13 +4,7 @@ import { Input, InputNumber, Select, Form, Table } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { uid } from "uid";
 
-export const formtypes = {
-  text: "text",
-  number: "number",
-  select: "select",
-  datePicker: "datePicker",
-  rangePicker: "rangePicker",
-};
+import { formtypes } from "./utils";
 
 function renderColumns(columns) {
   columns.forEach((column, i, current) => {
@@ -24,7 +18,14 @@ function renderColumns(columns) {
 }
 
 function renderColumn(column) {
-  const { dataIndex, formType, options, width, rules = [] } = column;
+  const {
+    dataIndex,
+    formType,
+    options,
+    initialValue,
+    width,
+    rules = [],
+  } = column;
 
   let newColumn = column;
 
@@ -34,7 +35,11 @@ function renderColumn(column) {
         ...column,
         render: (a, col) => {
           return (
-            <Form.Item name={`${col.key}__${dataIndex}`} rules={rules}>
+            <Form.Item
+              initialValue={initialValue}
+              name={`${col.key}__${dataIndex}`}
+              rules={rules}
+            >
               <Input
                 style={{ width }}
                 // onChange={e => {
@@ -51,7 +56,11 @@ function renderColumn(column) {
         ...column,
         render: (a, col) => {
           return (
-            <Form.Item name={`${col.key}__${dataIndex}`} rules={rules}>
+            <Form.Item
+              initialValue={initialValue}
+              name={`${col.key}__${dataIndex}`}
+              rules={rules}
+            >
               <InputNumber style={{ width }} />
             </Form.Item>
           );
@@ -63,7 +72,11 @@ function renderColumn(column) {
         ...column,
         render: (a, col) => {
           return (
-            <Form.Item name={`${col.key}__${dataIndex}`} rules={rules}>
+            <Form.Item
+              initialValue={initialValue}
+              name={`${col.key}__${dataIndex}`}
+              rules={rules}
+            >
               <Select options={options} style={{ width }} />
             </Form.Item>
           );
@@ -77,10 +90,33 @@ function renderColumn(column) {
   return newColumn;
 }
 
+function parseFormValuesToArray(values) {
+  const tableData = Object.keys(values).reduce((acc = [], key) => {
+    const separatorIndex = key.indexOf("__");
+    const id = key.substring(0, separatorIndex);
+    const name = key.substring(separatorIndex + 2);
+
+    const currentObj = acc.find((el) => el.id === id);
+    if (!currentObj) {
+      acc.push({ id, [name]: values[key] });
+    } else {
+      currentObj[name] = values[key];
+    }
+
+    return acc;
+  }, []);
+
+  return tableData;
+}
+
 function CEditableTable({ columns: propColumns }) {
   const [form] = useForm();
   const [data, setData] = useState([]);
   const [columns] = useState(renderColumns([...propColumns]));
+
+  // useEffect(() => {
+  //   setData(propData);
+  // }, [propData]);
 
   async function addRow() {
     await form.validateFields();
@@ -96,6 +132,13 @@ function CEditableTable({ columns: propColumns }) {
     });
 
     setData([...data, newData]);
+  }
+
+  function getTableData() {
+    const values = form.getFieldsValue();
+
+    const tableData = parseFormValuesToArray(values);
+    console.log(tableData);
   }
 
   return (
@@ -122,6 +165,7 @@ function CEditableTable({ columns: propColumns }) {
       >
         console
       </button>
+      <button onClick={getTableData}>get table data</button>
     </>
   );
 }
@@ -149,4 +193,5 @@ function CEditableTable({ columns: propColumns }) {
 //   }, []);
 // }
 
+export { formtypes };
 export default CEditableTable;
