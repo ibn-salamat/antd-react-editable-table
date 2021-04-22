@@ -1,10 +1,4 @@
-export const formtypes = {
-  text: "text",
-  number: "number",
-  select: "select",
-  datePicker: "datePicker",
-  rangePicker: "rangePicker",
-};
+import { formTypes } from "./formTypes";
 
 export const testColumns = [
   {
@@ -22,7 +16,7 @@ export const testColumns = [
     key: "name",
     title: "Name",
     dataIndex: "name",
-    formType: formtypes.text,
+    formType: formTypes.text,
     width: 120,
     initialValue: "Al",
     editable: true,
@@ -37,7 +31,7 @@ export const testColumns = [
     key: "age",
     title: "Age",
     dataIndex: "age",
-    formType: formtypes.number,
+    formType: formTypes.number,
     width: 120,
     editable: true,
   },
@@ -53,7 +47,7 @@ export const testColumns = [
             key: "houseNumber",
             title: "House number",
             dataIndex: "houseNumber",
-            formType: formtypes.number,
+            formType: formTypes.number,
             width: 120,
             editable: true,
           },
@@ -61,7 +55,7 @@ export const testColumns = [
             key: "flatNumber",
             title: "Flat number",
             dataIndex: "flatNumber",
-            formType: formtypes.number,
+            formType: formTypes.number,
             width: 120,
             editable: true,
           },
@@ -71,7 +65,7 @@ export const testColumns = [
         key: "city",
         title: "City",
         dataIndex: "city",
-        formType: formtypes.select,
+        formType: formTypes.select,
         options: [
           { label: "Atyrau", value: "atyrau_06" },
           { label: "Almaty", value: "almaty_02" },
@@ -91,7 +85,7 @@ export const testColumns = [
         key: "street",
         title: "Street",
         dataIndex: "street",
-        formType: formtypes.text,
+        formType: formTypes.text,
         width: 120,
         // rules: [
         //   {

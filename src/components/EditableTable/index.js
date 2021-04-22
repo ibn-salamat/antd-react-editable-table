@@ -5,104 +5,11 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
-import { Input, InputNumber, Select, Form, Table, Button } from "antd";
+import { Form, Table, Button } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { uid } from "uid";
 
-import { formtypes } from "./utils";
-
-function renderColumns(columns, mode) {
-  columns.forEach((column, i, current) => {
-    if (column.children) {
-      renderColumns(column.children, mode);
-    } else {
-      current[i] = renderColumn(column, mode);
-    }
-  });
-  return columns;
-}
-
-function renderColumn(column, mode) {
-  const {
-    dataIndex,
-    formType,
-    options,
-    initialValue,
-    width,
-    rules = [],
-    editable,
-  } = column;
-
-  let newColumn = column;
-
-  switch (formType) {
-    case formtypes.text:
-      newColumn = {
-        ...column,
-        render: (val, col) => {
-          return (
-            <Form.Item
-              initialValue={val || initialValue}
-              name={`${col.key}__${dataIndex}`}
-              rules={rules}
-            >
-              <Input
-                disabled={mode === "view" || !editable}
-                style={{ width }}
-                // onChange={e => {
-                //   console.log(e);
-                // }}
-              />
-            </Form.Item>
-          );
-        },
-      };
-      break;
-    case formtypes.number:
-      newColumn = {
-        ...column,
-        render: (val, col) => {
-          return (
-            <Form.Item
-              initialValue={val || initialValue}
-              name={`${col.key}__${dataIndex}`}
-              rules={rules}
-            >
-              <InputNumber
-                disabled={mode === "view" || !editable}
-                style={{ width }}
-              />
-            </Form.Item>
-          );
-        },
-      };
-      break;
-    case formtypes.select:
-      newColumn = {
-        ...column,
-        render: (val, col) => {
-          return (
-            <Form.Item
-              initialValue={val || initialValue}
-              name={`${col.key}__${dataIndex}`}
-              rules={rules}
-            >
-              <Select
-                disabled={mode === "view" || !editable}
-                options={options}
-                style={{ width }}
-              />
-            </Form.Item>
-          );
-        },
-      };
-      break;
-    default:
-      break;
-  }
-
-  return newColumn;
-}
+import { renderColumns } from "./renderColumns";
 
 function parseFormValuesToArray(values) {
   const tableData = Object.keys(values).reduce((acc = [], key) => {
@@ -208,5 +115,4 @@ const CEditableTable = forwardRef(
   }
 );
 
-export { formtypes };
 export default CEditableTable;
