@@ -34,8 +34,7 @@ function App() {
       <div style={{ padding: "10px 15px" }}>
         <br />
         <h1>Edit mode</h1>
-        <EditableTable columns={testColumns} />
-
+        <EditableTable columns={testColumns} ref={tableRef} />
         <Button onClick={getTableData}>Get data</Button>
       </div>
 
@@ -47,7 +46,6 @@ function App() {
           data={data}
           loading={loading}
           mode="view"
-          ref={tableRef}
         />
       </div>
     </>
