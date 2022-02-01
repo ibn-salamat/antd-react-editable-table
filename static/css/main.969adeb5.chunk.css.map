@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/index.css"],"names":[],"mappings":"AAAA,6DACE,gCACF","file":"main.969adeb5.chunk.css","sourcesContent":[".custom-antd-editable-table .ant-table-thead .ant-table-cell {\n  box-shadow: 2px 2px inset #e8e4e4;\n}\n"]}
